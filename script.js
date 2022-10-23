@@ -5,15 +5,16 @@ const ctx = canvas.getContext('2d');
 let isDrawing = false;
 let lastX;
 let lastY;
-let hue;
+let hue = 0;
+let direction = true;
 
 // Canvas spec
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
-ctx.strokeStyle = '#222222';
+ctx.strokeStyle = 'red';
 ctx.lineJoin = 'round';
 ctx.lineCap = 'round';
-ctx.lineWidth = 50;
+ctx.lineWidth = 1;
 
 // Drawing function
 function draw(e) {
@@ -23,6 +24,13 @@ function draw(e) {
   ctx.lineTo(e.offsetX, e.offsetY);
   ctx.stroke();
   [lastX, lastY] = [e.offsetX, e.offsetY];
+
+  ctx.strokeStyle = `hsl(${hue},100%,50%)`;
+  hue++;
+  if (ctx.lineWidth <= 1 || ctx.lineWidth >= 125) {
+    direction = !direction;
+  }
+  direction ? ctx.lineWidth++ : ctx.lineWidth--;
 }
 
 // Event listeners
